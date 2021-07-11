@@ -1,0 +1,7 @@
+.secret/
+.apykey/
+*.db
+*.pyc
+.idea/
+.apikey/
+main.py
