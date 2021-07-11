@@ -1,0 +1,35 @@
+body {
+      font-family: sans-serif;
+      background: #eee;
+      }
+h1 {
+  font : 2em "typewriter", monospace;
+  align-self : end;
+  color: Blue
+   }
+form {
+  position : relative;
+  width  : 740px;
+  height : 498px;
+  margin : 0 auto;
+  padding: 1em;
+  box-sizing: border-box;
+  }
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid red;
+  border-radius: 4px;
+}
+input[type=submit]{
+background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}

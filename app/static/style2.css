@@ -1,0 +1,20 @@
+h1 {
+  font : 2em "typewriter", monospace;
+  align-self : end;
+  color : red;
+}
+table {
+  width: 50%;
+  border-collapse: collapse;
+  border: 3px solid purple;
+  table align: "center"
+}
+th, td {
+  border: 1px solid black;
+  padding: 20px;
+
+}
+thead th {
+  width: 25%;
+}
+
