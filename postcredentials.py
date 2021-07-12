@@ -1,35 +1,46 @@
+import httplib2
+import hmac
 import hashlib
-import sys
-from datetime import time
-import requests
-import base64
-from passlib.totp import TOTP
-import pyotp
+import time
+import struct
+import json
 
-url = "https://dps-challenge.netlify.app/.netlify/functions/api/challenge"
-totp = pyotp.TOTP(base64.b32encode("akki.sulochana@gmail.comDPSCHALLENGE".encode()).decode(), digits=10,
- digest=hashlib.sha512).now()
+root = "https://dps-challenge.netlify.app/.netlify/functions/api/challenge"
+content_type = "application/json"
+userid = "akki.sulochana@gmail.com"
+name = "DPSCHALLENGE"
+shared_secret = userid+name
 
+timestep = 120
+T0 = 0
 
-print("Current OTP:", totp)
-headers = {'Authorization': "Basic/"+totp,
-           'Content-Type': "application/json"}
-payload = {'email':'akki.sulochana@gmail.com',
+def HOTP(K, C, digits=10):
+    K_bytes = str.encode(K)
+    C_bytes = struct.pack(">Q", C)
+    hmac_sha512 = hmac.new(key = K_bytes, msg=C_bytes, digestmod=hashlib.sha512).hexdigest()
+    return Truncate(hmac_sha512)[-digits:]
+
+def Truncate(hmac_sha512):
+    offset = int(hmac_sha512[-1], 16)
+    binary = int(hmac_sha512[(offset *2):((offset*2)+8)], 16) & 0x7FFFFFFF
+    return str(binary)
+
+def TOTP(K, digits=10, timeref = 0, timestep = 120):
+    C = int ( time.time() - timeref ) // timestep
+    return HOTP(K, C, digits = digits)
+
+data = {'email':'akki.sulochana@gmail.com',
         'github':'https://github.com/Sulochanaakki/Book_finder',
         'url':'https://digitalproductschool.io/',
         'notes': 'deployed through  heroku'}
 
+password = TOTP(shared_secret, 10, T0, timestep).zfill(10)
+#password_new = "Basic/" + password
 
-retries = 1
-success = False
-while not success:
-    try:
-        response = requests.post(url, headers=headers, data=payload, verify=False)
-        success = True
-        print(response)
-    except Exception as e:
-        wait = retries * 30;
-        print("error! waitng %s secs and re trying..." % wait)
-        sys.stdout.flush()
-        time.sleep(wait)
-        retries += 1
+h = httplib2.Http()
+auth =h.add_credentials(userid, password)
+header = {'Content-Type':'application/json',
+               'username':userid,
+               'Authorization':'Basic '+ password}
+resp, content = h.request(root, "POST", headers=header, body = json.dumps(data))
+print(resp)
