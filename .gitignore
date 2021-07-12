@@ -5,3 +5,5 @@
 .idea/
 .apikey/
 main.py
+.pyvenv.cfg
+.env/
