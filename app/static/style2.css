@@ -2,6 +2,7 @@ h1 {
   font : 2em "typewriter", monospace;
   align-self : end;
   color : red;
+  align :"center"
 }
 table {
   width: 50%;

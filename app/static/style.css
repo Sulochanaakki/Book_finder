@@ -1,3 +1,4 @@
+
 body {
       font-family: sans-serif;
       background: #eee;
@@ -6,6 +7,8 @@ h1 {
   font : 2em "typewriter", monospace;
   align-self : end;
   color: Blue
+  align :"center"
+
    }
 form {
   position : relative;
