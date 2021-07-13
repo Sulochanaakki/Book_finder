@@ -31,7 +31,7 @@ def TOTP(K, digits=10, timeref = 0, timestep = 120):
 
 data = {'email':'akki.sulochana@gmail.com',
         'github':'https://github.com/Sulochanaakki/Book_finder',
-        'url':'https://digitalproductschool.io/',
+        'url':'https://bookfinderapp1.herokuapp.com/',
         'notes': 'deployed through  heroku'}
 
 password = TOTP(shared_secret, 10, T0, timestep).zfill(10)
